@@ -1,0 +1,78 @@
+
+<div>
+  <button [disabled]="!canAdd" (click)="addNewForm()" class="btn btn-primary btn-sm">Add New Question</button>
+</div>
+
+<div *ngFor="let question of questions.controls; index as i">
+  <form [formGroup]="question">
+
+    <div class="form-control " *ngIf="ifControlExists(question, 'QuestionnaireName')">
+      <label for="QuestionnaireName">Questionnaire Name: </label>
+      <input type="text" formControlName="QuestionnaireName" />
+    </div>
+    
+    <div class="form-control " *ngIf="ifControlExists(question, 'Subject')">
+      <label for="Subject">Subject: </label>
+      <select formControlName="Subject">
+        <option value="0">Select Subject</option>
+        <option value="text">English</option>
+        <option value="radio">Maths</option>
+        <option value="checkbox">Physics</option>
+        <option value="dropdown">Accounting</option>
+        <option value="date">Chemistry</option>
+      </select>
+    </div>
+    
+    <div class="form-control " *ngIf="ifControlExists(question, 'type')">
+      <label for="type">Type: </label>
+      <select formControlName="type">
+        <option value="0">Select Type</option>
+        <option value="text">Text</option>
+        <option value="radio">Radio</option>
+        <option value="checkbox">Checkbox</option>
+        <option value="dropdown">Dropdown List</option>
+        <option value="date">Date</option>
+      </select>
+    </div>
+
+    <div class="form-control " *ngIf="ifControlExists(question, 'name')">
+      <label for="name">Property Name: </label>
+      <input type="text" formControlName="name" />
+    </div>
+
+    <div class="form-control " *ngIf="ifControlExists(question, 'label')">
+      <label for="label">Label: </label>
+      <input type="text" formControlName="label" />
+    </div>
+
+    <div class="form-control " *ngIf="ifControlExists(question, 'required')">
+      <label for="required">Is Required: </label>
+      <input type="checkbox" formControlName="required"/>
+    </div>
+
+    <div class="form-control" *ngIf="i > 0">
+      <button (click)="RemoveQuestion(i)" class="btn btn-primary btn-sm">Remove</button>
+    </div>
+
+    <div *ngIf="ifOptionExists(question)">
+      <button (click)="OnAddOption(question)" class="btn btn-primary btn-sm">Add Options</button>
+      
+      <div *ngFor="let o of question.get('options').controls">
+      
+        <div class="form-control" *ngIf="ifControlExists(o, 'key')">
+          <label for="key">Key: </label>
+          <input type="text" formControlName="key" />
+        </div>
+        
+      </div>
+
+    </div>
+
+
+  </form>
+</div>
+
+
+<div>
+  {{ questions.value | json }}
+</div>
