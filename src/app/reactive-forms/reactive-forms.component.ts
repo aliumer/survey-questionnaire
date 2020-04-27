@@ -32,10 +32,6 @@ export class ReactiveFormsComponent implements OnInit {
     });
   }
 
-  changeType(event) {
-    console.log(event);
-  }
-
   addNewForm() {
     this.childForm = this.fb.group({
       'type': new FormControl('', [Validators.required]),
@@ -52,7 +48,6 @@ export class ReactiveFormsComponent implements OnInit {
           })
         );
         this.childForm.addControl('options', options);
-        this.options = options;
       } else {
         this.childForm.removeControl('options');
       }

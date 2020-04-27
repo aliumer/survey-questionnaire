@@ -15,11 +15,11 @@
       <label for="Subject">Subject: </label>
       <select formControlName="Subject">
         <option value="0">Select Subject</option>
-        <option value="text">English</option>
-        <option value="radio">Maths</option>
-        <option value="checkbox">Physics</option>
-        <option value="dropdown">Accounting</option>
-        <option value="date">Chemistry</option>
+        <option value="english">English</option>
+        <option value="math">Maths</option>
+        <option value="physics">Physics</option>
+        <option value="accounting">Accounting</option>
+        <option value="chemistry">Chemistry</option>
       </select>
     </div>
     
@@ -57,9 +57,9 @@
     <div *ngIf="ifOptionExists(question)">
       <button (click)="OnAddOption(question)" class="btn btn-primary btn-sm">Add Options</button>
       
-      <div *ngFor="let o of question.get('options').controls">
+      <div *ngFor="let o of question.get('options').controls; index as j">
       
-        <div class="form-control" *ngIf="ifControlExists(o, 'key')">
+        <div [formGroup]="o" class="form-control" *ngIf="ifControlExists(o, 'key')">
           <label for="key">Key: </label>
           <input type="text" formControlName="key" />
         </div>
