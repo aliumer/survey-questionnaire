@@ -12,7 +12,7 @@ export class ReactiveFormsComponent implements OnInit {
   questions: FormArray;
   options: FormArray;
   canAdd = false;
-
+  generatedForm = '';
 
   constructor(
     private fb: FormBuilder
@@ -35,7 +35,6 @@ export class ReactiveFormsComponent implements OnInit {
   addNewForm() {
     this.childForm = this.fb.group({
       'type': new FormControl('', [Validators.required]),
-      'name': new FormControl('', [Validators.required]),
       'label': new FormControl('', [Validators.required]),
       'required': new FormControl(false),
     });
@@ -44,7 +43,7 @@ export class ReactiveFormsComponent implements OnInit {
         const options = new FormArray([]);
         options.push(
           this.fb.group({
-            key: new FormControl()
+            label: new FormControl()
           })
         );
         this.childForm.addControl('options', options);
@@ -72,10 +71,26 @@ export class ReactiveFormsComponent implements OnInit {
 
   OnAddOption(question: FormGroup) {
     const optionForm = this.fb.group({
-      key: new FormControl('', [Validators.required])
+      label: new FormControl('', [Validators.required])
     });
     const childOptions = question.get('options') as FormArray;
     childOptions.push(optionForm);
+  }
+
+  Save() {
+    const myJson = this.questions.value.map(element => {
+      if (element.hasOwnProperty('type')) {
+        element = { ...element, value: '', name: element.label.split(' ').join('').toLowerCase()};
+        if (element.hasOwnProperty('options')) {
+          element.options = element.options.map ((o) => {
+            return { ...o, key: o.label.split(' ').join('').toLowerCase() };
+          });
+        }
+      }
+      return element;
+    });
+
+    this.generatedForm =  myJson;
   }
 
 }

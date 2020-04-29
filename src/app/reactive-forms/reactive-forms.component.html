@@ -1,4 +1,3 @@
-
 <div>
   <button [disabled]="!canAdd" (click)="addNewForm()" class="btn btn-primary btn-sm">Add New Question</button>
 </div>
@@ -35,11 +34,6 @@
       </select>
     </div>
 
-    <div class="form-control " *ngIf="ifControlExists(question, 'name')">
-      <label for="name">Property Name: </label>
-      <input type="text" formControlName="name" />
-    </div>
-
     <div class="form-control " *ngIf="ifControlExists(question, 'label')">
       <label for="label">Label: </label>
       <input type="text" formControlName="label" />
@@ -58,12 +52,16 @@
       <button (click)="OnAddOption(question)" class="btn btn-primary btn-sm">Add Options</button>
       
       <div *ngFor="let o of question.get('options').controls; index as j">
-      
-        <div [formGroup]="o" class="form-control" *ngIf="ifControlExists(o, 'key')">
-          <label for="key">Key: </label>
-          <input type="text" formControlName="key" />
-        </div>
+
+        <div [formGroup]="o">
         
+          <div class="form-control" *ngIf="ifControlExists(o, 'label')">
+            <label for="label">Label: </label>
+            <input type="text" formControlName="label" />
+          </div>
+
+        </div>
+
       </div>
 
     </div>
@@ -71,8 +69,9 @@
 
   </form>
 </div>
-
-
 <div>
-  {{ questions.value | json }}
+  <button [disabled]="!canAdd" class="btn btn-primary" (click)="Save()">Save</button>
+</div>
+<div style="float: right;" >
+  {{ generatedForm | json }}
 </div>
